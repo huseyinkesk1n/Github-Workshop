@@ -9,6 +9,16 @@ Switch-case ve ternary operatör kullanarak gün ve ay hesaplamaları yapan bir 
 - Ternary operatör (`? :`)
 - Koşullu ifadeler
 
+## 📊 Puan Dağılımı
+
+| Bölüm | Puan |
+|-------|------|
+| GunAdiGetir | 7 |
+| ArtikYilMi | 6 |
+| AyinGunSayisi | 7 |
+| HaftaIciSonuMu | 5 |
+| **TOPLAM** | **25** |
+
 ---
 
 ## 📝 Yazmanız Gereken Kod

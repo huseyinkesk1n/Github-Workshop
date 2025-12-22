@@ -10,6 +10,18 @@ Foreach döngüsü ve fonksiyonlar kullanarak dizi ve liste işlemleri yapan bir
 - Diziler ve Listeler
 - Temel koleksiyon işlemleri
 
+## 📊 Puan Dağılımı
+
+| Bölüm | Puan |
+|-------|------|
+| DiziToplami | 4 |
+| DiziOrtalamasi | 4 |
+| EnBuyukBul | 4 |
+| EnKucukBul | 4 |
+| CiftSayilariFiltrele | 5 |
+| SayiTekrarSay | 4 |
+| **TOPLAM** | **25** |
+
 ---
 
 ## 📝 Yazmanız Gereken Kod

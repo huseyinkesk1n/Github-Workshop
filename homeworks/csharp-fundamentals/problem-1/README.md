@@ -9,6 +9,15 @@ Bir öğrencinin vize ve final notlarına göre harf notunu ve geçme durumunu h
 - Mantıksal operatörler (`&&`, `||`, `!`)
 - Karşılaştırma operatörleri (`>`, `<`, `>=`, `<=`, `==`)
 
+## 📊 Puan Dağılımı
+
+| Bölüm | Puan |
+|-------|------|
+| HesaplaOrtalama | 8 |
+| BelirleHarfNotu | 10 |
+| BelirleGecmeDurumu | 7 |
+| **TOPLAM** | **25** |
+
 ---
 
 ## 📝 Yazmanız Gereken Kod

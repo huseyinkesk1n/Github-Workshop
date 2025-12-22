@@ -7,45 +7,67 @@ namespace CSharpHomework.Tests
     /// Problem 1 Test Dosyası
     /// Bu dosyayı DEĞİŞTİRMEYİN!
     /// 
-    /// Öğrenci çözümlerini kontrol eder:
-    /// 1. Dosya adı formatı (Problem1_OGRENCI_NO.cs)
-    /// 2. Metot testleri
+    /// Puanlama:
+    /// - HesaplaOrtalama: 8 puan
+    /// - BelirleHarfNotu: 10 puan  
+    /// - BelirleGecmeDurumu: 7 puan
+    /// - TOPLAM: 25 puan
     /// </summary>
     public class Problem1Tests
     {
-        public static int TestsPassed = 0;
-        public static int TestsFailed = 0;
+        // Her bölüm için puanlar
+        public static double HesaplaOrtalamaPuan = 0;
+        public static double BelirleHarfNotuPuan = 0;
+        public static double BelirleGecmeDurumuPuan = 0;
+
+        public static int HesaplaOrtalamaGecen = 0;
+        public static int HesaplaOrtalamaKalan = 0;
+        public static int BelirleHarfNotuGecen = 0;
+        public static int BelirleHarfNotuKalan = 0;
+        public static int BelirleGecmeDurumuGecen = 0;
+        public static int BelirleGecmeDurumuKalan = 0;
+
+        // Puan ağırlıkları
+        const double HESAPLA_ORTALAMA_MAX = 8.0;
+        const double BELIRLE_HARF_NOTU_MAX = 10.0;
+        const double BELIRLE_GECME_DURUMU_MAX = 7.0;
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine("║     Problem 1 - Test Sistemi         ║");
-            Console.WriteLine("║     Öğrenci Not Hesaplama            ║");
-            Console.WriteLine("╚══════════════════════════════════════╝\n");
+            Console.WriteLine("╔══════════════════════════════════════════════════╗");
+            Console.WriteLine("║         Problem 1 - Test Sistemi                 ║");
+            Console.WriteLine("║         Öğrenci Not Hesaplama                    ║");
+            Console.WriteLine("╠══════════════════════════════════════════════════╣");
+            Console.WriteLine("║  Bölüm                    │ Max Puan             ║");
+            Console.WriteLine("║  ─────────────────────────┼──────────────────────║");
+            Console.WriteLine("║  HesaplaOrtalama          │ 8 puan               ║");
+            Console.WriteLine("║  BelirleHarfNotu          │ 10 puan              ║");
+            Console.WriteLine("║  BelirleGecmeDurumu       │ 7 puan               ║");
+            Console.WriteLine("║  ─────────────────────────┼──────────────────────║");
+            Console.WriteLine("║  TOPLAM                   │ 25 puan              ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════╝\n");
 
             if (args.Length == 0)
             {
                 Console.WriteLine("❌ HATA: Çözüm dosyası belirtilmedi!");
-                Console.WriteLine("Kullanım: dotnet run <dosya_adi>");
                 Environment.Exit(1);
             }
 
-            string dosyaAdi = args[0];
+            if (!DosyaAdiKontrol(args[0])) Environment.Exit(1);
 
-            // Dosya Adı Kontrolü
-            if (!DosyaAdiKontrol(dosyaAdi))
-            {
-                Environment.Exit(1);
-            }
-
-            Console.WriteLine("\n📝 Metot Testleri:\n");
+            Console.WriteLine("\n" + new string('═', 50));
+            Console.WriteLine("📝 TESTLER BAŞLIYOR");
+            Console.WriteLine(new string('═', 50) + "\n");
 
             // Testler
             TestHesaplaOrtalama();
             TestBelirleHarfNotu();
             TestBelirleGecmeDurumu();
 
-            // Sonuçlar
+            // Puanları hesapla
+            HesaplaPuanlar();
+
+            // Sonuçları göster
             Sonuclar();
         }
 
@@ -59,9 +81,7 @@ namespace CSharpHomework.Tests
 
             if (!match.Success)
             {
-                Console.WriteLine("   ❌ HATA: Dosya adı formatı yanlış!");
-                Console.WriteLine("   📌 Beklenen: Problem1_OGRENCI_NO.cs");
-                Console.WriteLine("   📌 Örnek: Problem1_210316011.cs");
+                Console.WriteLine("   ❌ HATA: Format yanlış! Beklenen: Problem1_OGRENCI_NO.cs");
                 return false;
             }
 
@@ -71,94 +91,229 @@ namespace CSharpHomework.Tests
 
         static void TestHesaplaOrtalama()
         {
-            Console.WriteLine("🔹 HesaplaOrtalama Testleri:");
+            Console.WriteLine("┌──────────────────────────────────────────────────┐");
+            Console.WriteLine("│ 📊 BÖLÜM 1: HesaplaOrtalama (8 puan)             │");
+            Console.WriteLine("└──────────────────────────────────────────────────┘");
 
             // Test 1
-            double r1 = Problem1.HesaplaOrtalama(70, 80);
-            Assert(Math.Abs(r1 - 76.0) < 0.01, "vize=70, final=80 → 76.0", r1.ToString("F2"));
+            try
+            {
+                double r1 = Problem1.HesaplaOrtalama(70, 80);
+                if (Math.Abs(r1 - 76.0) < 0.01)
+                {
+                    Console.WriteLine("   ✅ Test 1: vize=70, final=80 → 76.0");
+                    HesaplaOrtalamaGecen++;
+                }
+                else
+                {
+                    Console.WriteLine($"   ❌ Test 1: Beklenen 76.0, Bulunan {r1:F2}");
+                    HesaplaOrtalamaKalan++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"   ❌ Test 1: Hata - {ex.Message}");
+                HesaplaOrtalamaKalan++;
+            }
 
             // Test 2
-            double r2 = Problem1.HesaplaOrtalama(100, 100);
-            Assert(Math.Abs(r2 - 100.0) < 0.01, "vize=100, final=100 → 100.0", r2.ToString("F2"));
+            try
+            {
+                double r2 = Problem1.HesaplaOrtalama(100, 100);
+                if (Math.Abs(r2 - 100.0) < 0.01)
+                {
+                    Console.WriteLine("   ✅ Test 2: vize=100, final=100 → 100.0");
+                    HesaplaOrtalamaGecen++;
+                }
+                else
+                {
+                    Console.WriteLine($"   ❌ Test 2: Beklenen 100.0, Bulunan {r2:F2}");
+                    HesaplaOrtalamaKalan++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"   ❌ Test 2: Hata - {ex.Message}");
+                HesaplaOrtalamaKalan++;
+            }
 
             // Test 3
-            double r3 = Problem1.HesaplaOrtalama(50, 50);
-            Assert(Math.Abs(r3 - 50.0) < 0.01, "vize=50, final=50 → 50.0", r3.ToString("F2"));
+            try
+            {
+                double r3 = Problem1.HesaplaOrtalama(50, 50);
+                if (Math.Abs(r3 - 50.0) < 0.01)
+                {
+                    Console.WriteLine("   ✅ Test 3: vize=50, final=50 → 50.0");
+                    HesaplaOrtalamaGecen++;
+                }
+                else
+                {
+                    Console.WriteLine($"   ❌ Test 3: Beklenen 50.0, Bulunan {r3:F2}");
+                    HesaplaOrtalamaKalan++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"   ❌ Test 3: Hata - {ex.Message}");
+                HesaplaOrtalamaKalan++;
+            }
 
             // Test 4
-            double r4 = Problem1.HesaplaOrtalama(0, 0);
-            Assert(Math.Abs(r4 - 0.0) < 0.01, "vize=0, final=0 → 0.0", r4.ToString("F2"));
+            try
+            {
+                double r4 = Problem1.HesaplaOrtalama(0, 0);
+                if (Math.Abs(r4 - 0.0) < 0.01)
+                {
+                    Console.WriteLine("   ✅ Test 4: vize=0, final=0 → 0.0");
+                    HesaplaOrtalamaGecen++;
+                }
+                else
+                {
+                    Console.WriteLine($"   ❌ Test 4: Beklenen 0.0, Bulunan {r4:F2}");
+                    HesaplaOrtalamaKalan++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"   ❌ Test 4: Hata - {ex.Message}");
+                HesaplaOrtalamaKalan++;
+            }
+
+            Console.WriteLine($"   ─────────────────────────────────────────");
+            Console.WriteLine($"   Sonuç: {HesaplaOrtalamaGecen}/4 test geçti\n");
         }
 
         static void TestBelirleHarfNotu()
         {
-            Console.WriteLine("\n🔹 BelirleHarfNotu Testleri:");
+            Console.WriteLine("┌──────────────────────────────────────────────────┐");
+            Console.WriteLine("│ 📊 BÖLÜM 2: BelirleHarfNotu (10 puan)            │");
+            Console.WriteLine("└──────────────────────────────────────────────────┘");
 
-            Assert(Problem1.BelirleHarfNotu(95, 90) == "AA", "95, f=90 → AA", Problem1.BelirleHarfNotu(95, 90));
-            Assert(Problem1.BelirleHarfNotu(87, 85) == "BA", "87, f=85 → BA", Problem1.BelirleHarfNotu(87, 85));
-            Assert(Problem1.BelirleHarfNotu(82, 80) == "BB", "82, f=80 → BB", Problem1.BelirleHarfNotu(82, 80));
-            Assert(Problem1.BelirleHarfNotu(77, 75) == "CB", "77, f=75 → CB", Problem1.BelirleHarfNotu(77, 75));
-            Assert(Problem1.BelirleHarfNotu(72, 70) == "CC", "72, f=70 → CC", Problem1.BelirleHarfNotu(72, 70));
-            Assert(Problem1.BelirleHarfNotu(67, 65) == "DC", "67, f=65 → DC", Problem1.BelirleHarfNotu(67, 65));
-            Assert(Problem1.BelirleHarfNotu(62, 60) == "DD", "62, f=60 → DD", Problem1.BelirleHarfNotu(62, 60));
-            Assert(Problem1.BelirleHarfNotu(55, 55) == "FD", "55, f=55 → FD", Problem1.BelirleHarfNotu(55, 55));
-            Assert(Problem1.BelirleHarfNotu(40, 50) == "FF", "40, f=50 → FF", Problem1.BelirleHarfNotu(40, 50));
+            string[] testler = {
+                "95,90,AA", "87,85,BA", "82,80,BB", "77,75,CB", "72,70,CC",
+                "67,65,DC", "62,60,DD", "55,55,FD", "40,50,FF", "80,49,FF", "95,30,FF"
+            };
 
-            // Final < 50 kuralı
-            Assert(Problem1.BelirleHarfNotu(80, 49) == "FF", "80, f=49 → FF (final<50)", Problem1.BelirleHarfNotu(80, 49));
-            Assert(Problem1.BelirleHarfNotu(95, 30) == "FF", "95, f=30 → FF (final<50)", Problem1.BelirleHarfNotu(95, 30));
+            foreach (var test in testler)
+            {
+                var parts = test.Split(',');
+                double ort = double.Parse(parts[0]);
+                int final = int.Parse(parts[1]);
+                string beklenen = parts[2];
+
+                try
+                {
+                    string sonuc = Problem1.BelirleHarfNotu(ort, final);
+                    if (sonuc == beklenen)
+                    {
+                        Console.WriteLine($"   ✅ ort={ort}, final={final} → {beklenen}");
+                        BelirleHarfNotuGecen++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"   ❌ ort={ort}, final={final} → Beklenen: {beklenen}, Bulunan: {sonuc}");
+                        BelirleHarfNotuKalan++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"   ❌ ort={ort}, final={final} → Hata: {ex.Message}");
+                    BelirleHarfNotuKalan++;
+                }
+            }
+
+            Console.WriteLine($"   ─────────────────────────────────────────");
+            Console.WriteLine($"   Sonuç: {BelirleHarfNotuGecen}/11 test geçti\n");
         }
 
         static void TestBelirleGecmeDurumu()
         {
-            Console.WriteLine("\n🔹 BelirleGecmeDurumu Testleri:");
+            Console.WriteLine("┌──────────────────────────────────────────────────┐");
+            Console.WriteLine("│ 📊 BÖLÜM 3: BelirleGecmeDurumu (7 puan)          │");
+            Console.WriteLine("└──────────────────────────────────────────────────┘");
 
-            Assert(Problem1.BelirleGecmeDurumu("AA") == "Geçti", "AA → Geçti", Problem1.BelirleGecmeDurumu("AA"));
-            Assert(Problem1.BelirleGecmeDurumu("BA") == "Geçti", "BA → Geçti", Problem1.BelirleGecmeDurumu("BA"));
-            Assert(Problem1.BelirleGecmeDurumu("BB") == "Geçti", "BB → Geçti", Problem1.BelirleGecmeDurumu("BB"));
-            Assert(Problem1.BelirleGecmeDurumu("CB") == "Geçti", "CB → Geçti", Problem1.BelirleGecmeDurumu("CB"));
-            Assert(Problem1.BelirleGecmeDurumu("CC") == "Geçti", "CC → Geçti", Problem1.BelirleGecmeDurumu("CC"));
-            Assert(Problem1.BelirleGecmeDurumu("DC") == "Şartlı Geçti", "DC → Şartlı Geçti", Problem1.BelirleGecmeDurumu("DC"));
-            Assert(Problem1.BelirleGecmeDurumu("DD") == "Şartlı Geçti", "DD → Şartlı Geçti", Problem1.BelirleGecmeDurumu("DD"));
-            Assert(Problem1.BelirleGecmeDurumu("FD") == "Kaldı", "FD → Kaldı", Problem1.BelirleGecmeDurumu("FD"));
-            Assert(Problem1.BelirleGecmeDurumu("FF") == "Kaldı", "FF → Kaldı", Problem1.BelirleGecmeDurumu("FF"));
+            string[] testler = {
+                "AA,Geçti", "BA,Geçti", "BB,Geçti", "CB,Geçti", "CC,Geçti",
+                "DC,Şartlı Geçti", "DD,Şartlı Geçti", "FD,Kaldı", "FF,Kaldı"
+            };
+
+            foreach (var test in testler)
+            {
+                var parts = test.Split(',');
+                string harf = parts[0];
+                string beklenen = parts[1];
+
+                try
+                {
+                    string sonuc = Problem1.BelirleGecmeDurumu(harf);
+                    if (sonuc == beklenen)
+                    {
+                        Console.WriteLine($"   ✅ {harf} → {beklenen}");
+                        BelirleGecmeDurumuGecen++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"   ❌ {harf} → Beklenen: {beklenen}, Bulunan: {sonuc}");
+                        BelirleGecmeDurumuKalan++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"   ❌ {harf} → Hata: {ex.Message}");
+                    BelirleGecmeDurumuKalan++;
+                }
+            }
+
+            Console.WriteLine($"   ─────────────────────────────────────────");
+            Console.WriteLine($"   Sonuç: {BelirleGecmeDurumuGecen}/9 test geçti\n");
+        }
+
+        static void HesaplaPuanlar()
+        {
+            // Her bölüm için geçen test oranına göre puan hesapla
+            int toplam1 = HesaplaOrtalamaGecen + HesaplaOrtalamaKalan;
+            int toplam2 = BelirleHarfNotuGecen + BelirleHarfNotuKalan;
+            int toplam3 = BelirleGecmeDurumuGecen + BelirleGecmeDurumuKalan;
+
+            if (toplam1 > 0)
+                HesaplaOrtalamaPuan = (double)HesaplaOrtalamaGecen / toplam1 * HESAPLA_ORTALAMA_MAX;
+            
+            if (toplam2 > 0)
+                BelirleHarfNotuPuan = (double)BelirleHarfNotuGecen / toplam2 * BELIRLE_HARF_NOTU_MAX;
+            
+            if (toplam3 > 0)
+                BelirleGecmeDurumuPuan = (double)BelirleGecmeDurumuGecen / toplam3 * BELIRLE_GECME_DURUMU_MAX;
         }
 
         static void Sonuclar()
         {
-            Console.WriteLine("\n╔══════════════════════════════════════╗");
-            Console.WriteLine("║           TEST SONUÇLARI             ║");
-            Console.WriteLine("╚══════════════════════════════════════╝");
-            Console.WriteLine($"  ✅ Geçen: {TestsPassed}");
-            Console.WriteLine($"  ❌ Kalan: {TestsFailed}");
-            Console.WriteLine($"  📊 Toplam: {TestsPassed + TestsFailed}");
+            double toplamPuan = HesaplaOrtalamaPuan + BelirleHarfNotuPuan + BelirleGecmeDurumuPuan;
 
-            double puan = (double)TestsPassed / (TestsPassed + TestsFailed) * 25;
-            Console.WriteLine($"  🏆 Puan: {puan:F1} / 25");
+            Console.WriteLine("╔══════════════════════════════════════════════════╗");
+            Console.WriteLine("║              📊 PUAN TABLOSU                     ║");
+            Console.WriteLine("╠══════════════════════════════════════════════════╣");
+            Console.WriteLine($"║  HesaplaOrtalama    │ {HesaplaOrtalamaPuan,6:F2} / {HESAPLA_ORTALAMA_MAX,5:F2} puan    ║");
+            Console.WriteLine($"║  BelirleHarfNotu    │ {BelirleHarfNotuPuan,6:F2} / {BELIRLE_HARF_NOTU_MAX,5:F2} puan    ║");
+            Console.WriteLine($"║  BelirleGecmeDurumu │ {BelirleGecmeDurumuPuan,6:F2} / {BELIRLE_GECME_DURUMU_MAX,5:F2} puan    ║");
+            Console.WriteLine("╠══════════════════════════════════════════════════╣");
+            Console.WriteLine($"║  TOPLAM PUAN        │ {toplamPuan,6:F2} / 25.00 puan    ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════╝");
 
-            if (TestsFailed == 0)
-            {
-                Console.WriteLine("\n🎉 TEBRİKLER! TÜM TESTLER BAŞARILI!");
-            }
+            // Yüzde hesapla
+            double yuzde = (toplamPuan / 25.0) * 100;
+            Console.WriteLine($"\n📈 Başarı Yüzdesi: %{yuzde:F1}");
+
+            if (yuzde >= 100)
+                Console.WriteLine("\n🎉 TEBRİKLER! TÜM TESTLER BAŞARILI! FULL PUAN!");
+            else if (yuzde >= 80)
+                Console.WriteLine("\n✅ Çok iyi! Birkaç küçük düzeltmeyle full puan alabilirsiniz.");
+            else if (yuzde >= 50)
+                Console.WriteLine("\n⚠️ Orta seviye. Eksik kısımları gözden geçirin.");
             else
-            {
-                Console.WriteLine("\n⚠️ Bazı testler başarısız.");
+                Console.WriteLine("\n❌ Daha fazla çalışma gerekiyor. README'yi tekrar okuyun.");
+
+            if (toplamPuan < 25)
                 Environment.Exit(1);
-            }
-        }
-
-        static void Assert(bool condition, string expected, string actual)
-        {
-            if (condition)
-            {
-                Console.WriteLine($"     ✅ GEÇTI: {expected}");
-                TestsPassed++;
-            }
-            else
-            {
-                Console.WriteLine($"     ❌ KALDI: Beklenen: {expected}, Bulunan: {actual}");
-                TestsFailed++;
-            }
         }
     }
 }

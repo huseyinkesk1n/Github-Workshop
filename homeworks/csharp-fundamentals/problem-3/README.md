@@ -10,6 +10,17 @@ For, while ve do-while döngülerini kullanarak matematiksel hesaplamalar yapan 
 - `do-while` döngüsü
 - Döngü kontrol ifadeleri
 
+## 📊 Puan Dağılımı
+
+| Bölüm | Puan |
+|-------|------|
+| Faktoriyel | 5 |
+| FibonacciSerisi | 6 |
+| BasamakSayisi | 5 |
+| AsalMi | 5 |
+| SayilarinToplami | 4 |
+| **TOPLAM** | **25** |
+
 ---
 
 ## 📝 Yazmanız Gereken Kod
